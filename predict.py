@@ -45,5 +45,5 @@ if __name__ == '__main__':
         n_prior=12,
         addition=0,
         regressor_type='lgbm',
-        suffix='simplified'
+        suffix='standard' # Change to "simplified" to generate the simplified version of predictions 
     )

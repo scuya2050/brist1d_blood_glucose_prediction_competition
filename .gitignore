@@ -1,9 +1,11 @@
 venv/
 *.pyc
+*.tmp
+*.docx
+*.pptx
 __pycache__/
 *.pkl
 /data/raw/*
 !/data/raw/.gitkeep
-documentation/
 /submission/*
 !/submission/.gitkeep
