@@ -1,0 +1,11 @@
+{
+    "LOGS_DIR": "./logs/", 
+    "RAW_DATA_DIR": "./data/raw/",
+    "RAW_TRAIN_FILE": "./data/raw/train.csv",
+    "RAW_TEST_FILE": "./data/raw/test.csv",
+    "PROCESSED_DATA_DIR": "./data/processed/",
+    "WORK_DIR":  "./work/",
+    "HYPERPARAMETER_TUNING_DIR": "./hyperparameter_tuning/", 
+    "MODEL_DIR": "./model/", 
+    "SUBMISSION_DIR": "./submission/"
+}

@@ -1,0 +1,7 @@
+venv/
+*.pyc
+__pycache__/
+*.pkl
+/data/raw/*
+!/data/raw/.gitkeep
+documentation/
