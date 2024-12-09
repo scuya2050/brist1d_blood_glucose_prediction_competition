@@ -174,17 +174,17 @@ def fit_model(gap, n_prior, addition, regressor_type, columns_to_remove=None, ta
     else:
         raise Exception("Unrecognized regressor")
 
-    pipeline = Pipeline(
+    model = Pipeline(
         steps=[
             ('transform', transformer),
             ('regressor', regressor),
         ]
     )
 
-    pipeline.fit(X, y)
-    pipeline_pkl_file = Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_pipeline_{suffix}.pkl'
-    with open(pipeline_pkl_file, "wb") as output_pipeline_file:
-        pickle.dump(pipeline, output_pipeline_file)
+    model.fit(X, y)
+    model_pkl_file = Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_model_{suffix}.pkl'
+    with open(model_pkl_file, "wb") as output_model_file:
+        pickle.dump(model, output_model_file)
 
 
 # refit model with new data
@@ -193,14 +193,14 @@ def refit_model(gap, n_prior, addition, regressor_type, suffix='default'):
     X = pd.read_pickle(Path(PROCESSED_DATA_DIR) / f'X_full_gap_{gap}_prior_{n_prior}_addition_{addition}.pkl')
     y = pd.read_pickle(Path(PROCESSED_DATA_DIR) / f'y_full_gap_{gap}_prior_{n_prior}_addition_{addition}.pkl')
 
-    with open(Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_pipeline_{suffix}.pkl', "rb") as input_pipeline_file:
-        pipeline = pickle.load(input_pipeline_file)
+    with open(Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_model_{suffix}.pkl', "rb") as input_model_file:
+        model = pickle.load(input_model_file)
 
-    pipeline.fit(X, y)
+    model.fit(X, y)
 
-    pipeline_pkl_file = Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_pipeline_{suffix}.pkl'
-    with open(pipeline_pkl_file, "wb") as output_pipeline_file:
-        pickle.dump(pipeline, output_pipeline_file)
+    model_pkl_file = Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_model_{suffix}.pkl'
+    with open(model_pkl_file, "wb") as output_model_file:
+        pickle.dump(model, output_model_file)
 
 
 # train model with hyperparameter tuning (can be skipped)
@@ -251,16 +251,16 @@ def train(gap, n_prior, addition, columns_to_remove, target_encoders, suffix='de
 
 
 if __name__ == '__main__':
-    gap = 1
-    n_prior = 12
-    addition = 0
-    regressor_type = 'lgbm'
+    from brist1d.params import (
+        GAP, N_PRIOR, ADDITION, COLUMNS_TO_REMOVE, TARGET_ENCODERS, 
+        SUFFIX, REFIT, SKIP_HYPERPARAMETER_TUNING, REGRESSOR_TYPE, SEED, LR, N_TRIALS
+        ) 
 
-    with open(Path(PROCESSED_DATA_DIR) / f'phase_1_indexes_{gap}_prior_{n_prior}_addition_{addition}.pkl', "rb") as input_file:
+    with open(Path(PROCESSED_DATA_DIR) / f'phase_1_indexes_{GAP}_prior_{N_PRIOR}_addition_{ADDITION}.pkl', "rb") as input_file:
         phase_1_indexes = pickle.load(input_file)
     
     initial_window = len(phase_1_indexes)
-    step_list = pd.read_pickle(Path(PROCESSED_DATA_DIR) / f'step_list_full_gap_{gap}_prior_{n_prior}_addition_{addition}.pkl')
+    step_list = pd.read_pickle(Path(PROCESSED_DATA_DIR) / f'step_list_full_gap_{GAP}_prior_{N_PRIOR}_addition_{ADDITION}.pkl')
 
     cv = TabularExpandingWindowCV(initial_window=initial_window, step_list=step_list, initial_step=12, step_length=6, forecast_horizon=12)
 
@@ -272,16 +272,16 @@ if __name__ == '__main__':
     target_encoders = ['mean', 'std', 'skew', 'kurt']
 
     train(
-        gap, 
-        n_prior, 
-        addition, 
-        columns_to_remove, 
-        target_encoders, 
-        suffix='standard',
-        refit=False,
-        skip_hyperparameter_tuning=False, 
-        regressor_type='lgbm', 
+        gap=GAP, 
+        n_prior=N_PRIOR, 
+        addition=ADDITION, 
+        columns_to_remove=COLUMNS_TO_REMOVE, 
+        target_encoders=TARGET_ENCODERS, 
+        suffix=SUFFIX,
+        refit=REFIT,
+        skip_hyperparameter_tuning=SKIP_HYPERPARAMETER_TUNING, 
+        regressor_type=REGRESSOR_TYPE, 
         cv=cv, 
-        seed=864, 
-        lr=0.01,
-        n_trials=25)
+        seed=SEED, 
+        lr=LR,
+        n_trials=N_TRIALS)

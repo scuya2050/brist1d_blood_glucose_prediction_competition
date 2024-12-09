@@ -18,51 +18,22 @@ from predict import predict_and_generate_submission
 
 # STEP 0: SET PARAMETERS (Except CV, since it needs to be generated according to the preprocessed data)
 
-# Settings for standard model
-gap = 1
-n_prior = 12
-addition = 0
-regressor_type = 'lgbm'
-columns_to_remove = ([]
-    + [f'bg_{lag}_lag' for lag in [35,40,45,50,55,60]]
-    + [f'bg_{lag}_diff' for lag in [30,35,40,45,50,55]]
-)
-target_encoders = ['mean', 'std', 'skew', 'kurt']
-suffix = 'standard'
-lr = 0.01
-n_trials = 25
-seed = 864 # Used to replicate results
+from brist1d.params import *
 
-skip_expansion = False
-refit = False  # If just an already existing model wants to be used, set this to True
-skip_hyperparameter_tuning = False
+gap = GAP
+n_prior = N_PRIOR
+addition = ADDITION
+regressor_type = REGRESSOR_TYPE
+columns_to_remove = COLUMNS_TO_REMOVE
+target_encoders = TARGET_ENCODERS
+suffix = SUFFIX
+lr = LR
+n_trials = N_TRIALS
+seed = SEED # Used to replicate results
 
-
-# # Settings for simplified model
-# gap = 1
-# n_prior = 12
-# addition = 0
-# regressor_type = 'lgbm'
-# columns_to_remove = ([]
-#     + [f'bg_{lag}_lag' for lag in [20,25,30,35,40,45,50,55,60]]
-#     + [f'bg_{lag}_diff' for lag in [15,20,25,30,35,40,45,50,55]]
-#     + [f'insulin_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + [f'carbs_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + [f'hr_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + [f'steps_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + [f'cals_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + [f'activity_{lag}_lag' for lag in [0,5,10,15,20,25,30,35,40,45,50,55]]
-#     + ['bg_gap']
-# )
-# target_encoders = ['mean']
-# suffix = 'simplified'
-# lr = 0.01
-# n_trials = 25
-# seed = 864 # Used to replicate results
-
-# skip_expansion = False
-# refit = False  # If just an already existing model wants to be used, set this to True
-# skip_hyperparameter_tuning = False
+skip_expansion = SKIP_EXPANSION
+refit = REFIT
+skip_hyperparameter_tuning = SKIP_HYPERPARAMETER_TUNING
 
 
 # STEP 1: PREPROCESS (just train data)
@@ -107,7 +78,7 @@ predict_and_generate_submission(
     suffix=suffix
 )
 
-# After all is done, the submission file will be generated in the MODEL directory
+# After all is done, the submission file will be generated in the SUBMISSION directory
 
 
 

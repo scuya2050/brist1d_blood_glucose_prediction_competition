@@ -28,10 +28,10 @@ def predict_and_generate_submission(gap, n_prior, addition, regressor_type, suff
         X_test = pd.read_pickle(Path(PROCESSED_DATA_DIR) / f'X_test_gap_{gap}_prior_{n_prior}_addition_{addition}.pkl')
 
 
-        with open(Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_pipeline_{suffix}.pkl', "rb") as input_pipeline_file:
-            pipeline = pickle.load(input_pipeline_file)
+        with open(Path(MODEL_DIR) / f'{regressor_type}_gap_{gap}_prior_{n_prior}_addition_{addition}_model_{suffix}.pkl', "rb") as input_model_file:
+            model = pickle.load(input_model_file)
 
-        y_pred = pipeline.predict(X_test)
+        y_pred = model.predict(X_test)
         
         submission_df = pd.DataFrame()
         submission_df['id'] = test_df.loc[X_test.index].id
@@ -40,10 +40,14 @@ def predict_and_generate_submission(gap, n_prior, addition, regressor_type, suff
 
 
 if __name__ == '__main__':
+    from brist1d.params import (
+        GAP, N_PRIOR, ADDITION, REGRESSOR_TYPE, SUFFIX
+        ) 
+
     predict_and_generate_submission(
-        gap=1,
-        n_prior=12,
-        addition=0,
-        regressor_type='lgbm',
-        suffix='standard' # Change to "simplified" to generate the simplified version of predictions 
+        gap=GAP,
+        n_prior=N_PRIOR,
+        addition=ADDITION,
+        regressor_type=REGRESSOR_TYPE,
+        suffix=SUFFIX
     )

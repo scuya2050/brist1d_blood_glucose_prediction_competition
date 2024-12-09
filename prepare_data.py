@@ -85,8 +85,13 @@ def preprocess(gap, n_prior, addition, skip_expansion=False):
 
 
 if __name__ == '__main__':
-    gap = 1
-    n_prior = 12
-    addition = 0
+    from brist1d.params import (
+        GAP, N_PRIOR, ADDITION, SKIP_EXPANSION
+        ) 
 
-    preprocess(gap, n_prior, addition, skip_expansion=False)
+    preprocess(
+        gap=GAP, 
+        n_prior=N_PRIOR, 
+        addition=ADDITION, 
+        skip_expansion=SKIP_EXPANSION
+        )
