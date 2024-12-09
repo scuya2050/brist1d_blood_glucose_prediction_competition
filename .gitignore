@@ -5,3 +5,5 @@ __pycache__/
 /data/raw/*
 !/data/raw/.gitkeep
 documentation/
+/submission/*
+!/submission/.gitkeep
