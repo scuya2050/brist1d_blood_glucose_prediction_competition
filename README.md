@@ -3,6 +3,8 @@
 Below you can find a outline of how to reproduce my solution for the BrisT1D Blood Glucose Prediction Competition.\
 If you run into any trouble with the setup/code or have any questions please contact me at sebastiancuya20.50@gmail.com
 
+Competition link: https://www.kaggle.com/competitions/brist1d
+
 ## ARCHIVE CONTENTS
 - `brist1d`                 : contains scripts with transformation and utility functions, as well as the parameters that the scripts use.
 - `data`                    : contains both the raw and the processed 
